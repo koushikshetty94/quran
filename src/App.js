@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Route, Switch } from "react-router-dom";
+import Home from "./homepage/homepage";
+import Detail from "./homepage/detail";
 
-function App() {
+function Pages(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route
+        exact
+        path="/"
+        render={({ history }) => (
+          <Home setData={props.setData} history={history} />
+        )}
+      />
+      <Route
+        exact
+        path="/details"
+        render={() => <Detail data={props.data} />}
+      />
+    </Switch>
   );
+}
+
+class App extends React.Component {
+  state = {
+    data: null,
+  };
+  setData = (data) => {
+    this.setState({ data });
+  };
+  render() {
+    return (
+      <div>
+        <Pages data={this.state.data} setData={this.setData} />
+      </div>
+    );
+  }
 }
 
 export default App;
